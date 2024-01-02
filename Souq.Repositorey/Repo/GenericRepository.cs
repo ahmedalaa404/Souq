@@ -3,6 +3,7 @@ using Souq.Core.DataBase;
 using Souq.Core.Repositories;
 using Souq.Repositorey.DataBase;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,13 @@ namespace Souq.Repositorey.Repo
         }
         public async Task<IEnumerable<T>> GetAllAsyc()
         {
+
+            if(typeof(T)==typeof(Product))
+            {
+                var AllProduct = await context.Set<Product>().Include(x=>x.ProductBrand).Include(x=>x.ProductType).ToListAsync() as IEnumerable<T>;
+                return AllProduct ;
+
+            }
             var AllData=await context.Set<T>().ToListAsync();
             return AllData;
         }

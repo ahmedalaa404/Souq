@@ -17,13 +17,17 @@ namespace Souq.Api.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> GetProducts() 
+        //[ProducesDefaultResponseType(400)]
+        public async Task<ActionResult<IEnumerable<Product>>> GetProducts() 
         {
             var Product = await _ProductRepo.GetAllAsyc();
-
-
             return Ok(Product);
         }
+
+        //[HttpPost("Id")]
+
+        //public
+
 
     }
 }

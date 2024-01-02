@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Souq.C.DataBase;
 using Souq.Core.DataBase;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -16,6 +16,13 @@ namespace Souq.Repositorey.DataBase
         public StoreContext(DbContextOptions<StoreContext> Options):base(Options)
         {
             
+        }
+
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Product> Products { get; set; }

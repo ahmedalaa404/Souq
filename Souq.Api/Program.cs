@@ -3,8 +3,11 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Souq.Core.DataBase;
+using Souq.Core.Repositories;
 using Souq.Repositorey.DataBase;
 using Souq.Repositorey.DataBase.DataSeed;
+using Souq.Repositorey.Repo;
 
 namespace Souq.Api
 {
@@ -26,6 +29,10 @@ namespace Souq.Api
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+
+
+            builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
     #endregion
 
 

@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Souq.Repositorey\Souq.Repositorey.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Controllers\" />
-  </ItemGroup>
-
 </Project>

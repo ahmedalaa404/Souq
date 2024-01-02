@@ -4,6 +4,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Souq.Repositorey.DataBase;
+using Souq.Repositorey.DataBase.DataSeed;
 
 namespace Souq.Api
 {
@@ -38,6 +39,9 @@ namespace Souq.Api
             {
                 var ContextInstance = Services.GetRequiredService<StoreContext>(); // ask CLr To Create instance from dbcontext Explicety
                 await ContextInstance.Database.MigrateAsync(); //Must To Make Dispose The Connection
+
+                await StoreContextSeed.SeedData(ContextInstance);
+
 
             }
             catch (Exception Errors)

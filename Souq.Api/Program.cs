@@ -2,13 +2,14 @@
 
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using Souq.Repositorey.DataBase;
 
 namespace Souq.Api
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -29,6 +30,27 @@ namespace Souq.Api
 
             var app = builder.Build();
 
+            using var Scope = app.Services.CreateScope(); // Make Scope Manually  -- that`s not Under Controller CLR
+            var Services = Scope.ServiceProvider;
+            var loggerFactorey= Services.GetRequiredService<ILoggerFactory>(); // Allow Dependency Logger Factorey 
+            #region Take Instance DbContext To Make Appliy Migration -- Update Database Explicety 
+            try
+            {
+                var ContextInstance = Services.GetRequiredService<StoreContext>(); // ask CLr To Create instance from dbcontext Explicety
+                await ContextInstance.Database.MigrateAsync(); //Must To Make Dispose The Connection
+
+            }
+            catch (Exception Errors)
+            {
+                var Logger = loggerFactorey.CreateLogger<Program>();
+                Logger.LogError("This Error Happen When Make Migration",Errors.Message);
+                //Console.WriteLine(Errors.Message);
+                
+            }
+
+
+
+            #endregion
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
@@ -43,7 +65,7 @@ namespace Souq.Api
 
             app.MapControllers();
 
-            app.Run();
+            app.Run(); // Run Console Kestral WebApplications 
         }
     }
 }

@@ -24,9 +24,13 @@ namespace Souq.Api.Controllers
             return Ok(Product);
         }
 
-        //[HttpPost("Id")]
+        [HttpPost("{Id}")]
 
-        //public
+        public async Task<ActionResult> GetProduct(int Id)
+        {
+            var Product =await _ProductRepo.GetByIdAsync(Id);
+            return Ok(Product);
+        }
 
 
     }

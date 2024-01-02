@@ -1,0 +1,26 @@
+﻿using Microsoft.EntityFrameworkCore;
+using Souq.C.DataBase;
+using Souq.Core.DataBase;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Souq.Repositorey.DataBase
+{
+
+    public class StoreContext:DbContext
+    {
+
+        public StoreContext(DbContextOptions<StoreContext> Options):base(Options)
+        {
+            
+        }
+
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductBrand> ProductBrands { get; set; }
+        public DbSet<ProductType> ProductTypes { get; set; }
+
+    }
+}

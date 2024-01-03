@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
+using Souq.Core.Specification;
 using Souq.Repositorey.DataBase;
 using System;
 using System.Collections;
@@ -33,6 +34,7 @@ namespace Souq.Repositorey.Repo
             return AllData;
         }
 
+
         public async Task<T> GetByIdAsync(int Id)
         {
 
@@ -41,5 +43,38 @@ namespace Souq.Repositorey.Repo
             return await context.Set<T>().FindAsync(Id); // have Warning IF Id Is Null Here
 
         }
+
+
+
+        #region Function Dynamic With Specification
+        public async Task<IEnumerable<T>> GetAllAsycWithSpec(ISpecification<T> Spec)
+        {
+          return await ApplySpecification(Spec).ToListAsync();
+        }
+
+        public async Task<T> GetByIdAsyncWithSpec(ISpecification<T> Spec)
+        {
+            return await ApplySpecification(Spec).FirstOrDefaultAsync();
+        }
+        #endregion
+
+
+
+
+
+        #region ApplySpecification
+
+
+        IQueryable<T> ApplySpecification(ISpecification<T> Spec)
+        {
+            return SpecificationEvalutor<T>.GetQuery(context.Set<T>(), Spec);
+        }
+
+        #endregion
+
+
+
+
+
     }
 }

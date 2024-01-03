@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
+using Souq.Core.Specification;
 
 namespace Souq.Api.Controllers
 {
@@ -20,14 +21,28 @@ namespace Souq.Api.Controllers
         //[ProducesDefaultResponseType(400)]
         public async Task<ActionResult<IEnumerable<Product>>> GetProducts() 
         {
-            var Product = await _ProductRepo.GetAllAsyc();
-            return Ok(Product);
+            //var Product = await _ProductRepo.GetAllAsyc();
+
+            var Spec = new BaseSpecification<Product>();
+            var Products=await _ProductRepo.GetAllAsycWithSpec(Spec);
+
+            return Ok(Products);
         }
+
+
+
+
+
+
 
         [HttpPost("{Id}")]
 
         public async Task<ActionResult> GetProduct(int Id)
         {
+
+
+
+
             var Product =await _ProductRepo.GetByIdAsync(Id);
             return Ok(Product);
         }

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Souq.Api.DTOS;
+using Souq.Api.Errors;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
 using Souq.Core.Specification;
@@ -52,6 +53,11 @@ namespace Souq.Api.Controllers
             var Spec = new ProductWithBrandAndTypeSpecification( id);
 
             var Product =await _ProductRepo.GetByIdAsyncWithSpec(Spec);
+
+            if (Product is null) 
+                return NotFound(new ApiResponse(404,null));
+
+
             var ProductDto = _Mapper.Map<Product,ProductToReturnDTO>(Product);
 
             return Ok(ProductDto);

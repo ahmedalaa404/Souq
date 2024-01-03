@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using System.Net;
 using System.Text.Json;
 using static System.Net.Mime.MediaTypeNames;
 
@@ -10,7 +11,7 @@ namespace Souq.Api.Errors
         private readonly ILogger<ExceptionsMiddleWare> logger;
         private readonly IHostEnvironment env;
 
-        public ExceptionsMiddleWare(RequestDelegate Next,ILogger<ExceptionsMiddleWare>  Logger,IHostEnvironment Env)
+        public ExceptionsMiddleWare(RequestDelegate Next, ILogger<ExceptionsMiddleWare> Logger, IHostEnvironment Env)
         {
             next = Next;
             logger = Logger;
@@ -18,7 +19,7 @@ namespace Souq.Api.Errors
         }
 
 
-        public async Task InvokeAsync(HttpContext Context)  
+        public async Task InvokeAsync(HttpContext Context)
         {
             try
             {
@@ -26,37 +27,26 @@ namespace Souq.Api.Errors
             }
             catch (Exception ex)
             {
-                logger.LogError(ex,ex.Message);
+                logger.LogError(ex, ex.Message);
                 //Log Exception In DataBase
                 Context.Response.ContentType = "application/json";
 
-                Context.Response.StatusCode = (int)StatusCodes.Status500InternalServerError;
+                Context.Response.StatusCode =(int) HttpStatusCode.InternalServerError;
 
-                if(env.IsDevelopment() )
-                {
-                    var Response = new ApiExceptionResponse((int)StatusCodes.Status500InternalServerError, ex.Message, ex.StackTrace.ToString());
-                    Context.Response.WriteAsync(JsonSerializer.Serialize(Response));
+                var x = env.IsDevelopment();
 
-                }
-                else
-                {
-                    var Response = new ApiExceptionResponse((int)StatusCodes.Status500InternalServerError);
+                var Response = env.IsDevelopment() ? new ApiExceptionResponse(500, ex.Message, ex.StackTrace.ToString()) :
+                 new ApiExceptionResponse(500, ex.Message, ex.StackTrace.ToString());
 
-                }
 
-         
+
+
+                var Options = new JsonSerializerOptions() { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+                var Json = JsonSerializer.Serialize(Response, Options);
+                await Context.Response.WriteAsync(Json);
+
+
             }
-
         }
-
-
-
-
-
-
-
-
-
-
     }
 }

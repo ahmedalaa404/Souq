@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Souq.Api.Errors;
 using Souq.Api.Profilers;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
@@ -64,6 +65,12 @@ namespace Souq.Api
 
 
             #endregion
+
+
+
+
+
+            app.UseMiddleware<ExceptionsMiddleWare>();
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {

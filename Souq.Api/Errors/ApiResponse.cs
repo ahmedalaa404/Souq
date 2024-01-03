@@ -12,7 +12,7 @@ namespace Souq.Api.Errors
 
 
 
-        public ApiResponse(int Number, string? ErrorMessage)
+        public ApiResponse(int Number, string? ErrorMessage=null)
         {
             StatusCode = Number;
             Message = !(string.IsNullOrEmpty(ErrorMessage))? ErrorMessage: GetDefaultMessageForStatusCode(Number);

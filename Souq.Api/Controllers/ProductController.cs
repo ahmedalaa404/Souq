@@ -24,14 +24,14 @@ namespace Souq.Api.Controllers
 
         [HttpGet]
         //[ProducesDefaultResponseType(400)]
-        public async Task<ActionResult<IEnumerable<ProductToReturnDTO>>> GetProducts() 
+        public async Task<ActionResult<IEnumerable<ProductToReturnDTO>>> GetProducts()
         {
             //var Product = await _ProductRepo.GetAllAsyc();
 
             var Spec = new ProductWithBrandAndTypeSpecification();
-            var Products=await _ProductRepo.GetAllAsycWithSpec(Spec);
+            var Products = await _ProductRepo.GetAllAsycWithSpec(Spec);
 
-            var ProductDto= _Mapper.Map<IEnumerable<Product> ,IEnumerable<ProductToReturnDTO>>(Products);
+            var ProductDto = _Mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDTO>>(Products);
 
 
 
@@ -64,5 +64,18 @@ namespace Souq.Api.Controllers
         }
 
 
+
+        [HttpGet("gETdSAA")]
+
+
+        public ActionResult GetData()
+        {
+            string hambozo = null;
+            var Spec = hambozo.ToString();
+
+            return Ok();
+        }
     }
+
+
 }

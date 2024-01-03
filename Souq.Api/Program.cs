@@ -3,6 +3,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Souq.Api.Profilers;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
 using Souq.Repositorey.DataBase;
@@ -33,7 +34,8 @@ namespace Souq.Api
 
 
             builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
-    #endregion
+            builder.Services.AddAutoMapper(X => X.AddProfile(new MapperDto() )); // to Allow Dependency injection
+            #endregion
 
 
             var app = builder.Build();

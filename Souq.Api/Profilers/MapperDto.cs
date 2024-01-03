@@ -9,7 +9,9 @@ namespace Souq.Api.Profilers
         public MapperDto()
         {
             CreateMap<Product, ProductToReturnDTO>().ForMember(distantion=> distantion.ProductBrand,o=>o.MapFrom(Source => Source.ProductBrand.Name))
-           .ForMember(distantion => distantion.ProductType,o=>o.MapFrom(Source=> Source.ProductBrand.Name));
+           .ForMember(distantion => distantion.ProductType,o=>o.MapFrom(Source=> Source.ProductBrand.Name))
+           .ForMember(Dis=>Dis.PictureUrl,O=>O.MapFrom<ProductPictureUrlResolver>())
+           ;
         }
 
 

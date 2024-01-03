@@ -34,7 +34,7 @@ namespace Souq.Api
 
 
             builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
-            builder.Services.AddAutoMapper(X => X.AddProfile(new MapperDto() )); // to Allow Dependency injection
+            builder.Services.AddAutoMapper(typeof(MapperDto).Assembly ); // to Allow Dependency injection
             #endregion
 
 

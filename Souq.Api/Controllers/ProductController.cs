@@ -14,22 +14,27 @@ namespace Souq.Api.Controllers
     {
         private readonly IGenericRepository<Product> _ProductRepo;
         private readonly IMapper _Mapper;
+        private readonly IGenericRepository<ProductBrand> _Productbrand;
+        private readonly IGenericRepository<ProductType> _ProductType;
 
-        public ProductController(IGenericRepository<Product> ProductRepo ,IMapper Mapper)
+        public ProductController(IGenericRepository<Product> ProductRepo ,IMapper Mapper, 
+            IGenericRepository<ProductBrand> Productbrand, IGenericRepository<ProductType> ProductType)
         {
             _ProductRepo = ProductRepo;
             _Mapper = Mapper;
+            _Productbrand = Productbrand;
+            _ProductType= ProductType;
         }
 
 
         [HttpGet]
         [ProducesResponseType(typeof(IEnumerable<ProductToReturnDTO>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ProductToReturnDTO>>> GetProducts()
+        public async Task<ActionResult<IEnumerable<ProductToReturnDTO>>> GetProducts(string? Sort,int? BrandId,int? TypeId)
         {
             //var Product = await _ProductRepo.GetAllAsyc();
 
-            var Spec = new ProductWithBrandAndTypeSpecification();
+            var Spec = new ProductWithBrandAndTypeSpecification(Sort,BrandId, TypeId);
             var Products = await _ProductRepo.GetAllAsycWithSpec(Spec);
 
             var ProductDto = _Mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDTO>>(Products);
@@ -65,6 +70,30 @@ namespace Souq.Api.Controllers
 
             return Ok(ProductDto);
         }
+
+
+
+        #region Brand And Type Action 
+        [HttpGet("types")]
+
+        public async Task<ActionResult<IEnumerable<ProductType>>> GetType()
+        {
+            var Type = await _ProductType.GetAllAsyc();
+            return Ok(Type);
+        }
+        [HttpGet("brands")]
+        public async Task<ActionResult<IEnumerable<ProductBrand>>> GetBrand()
+        {
+            var Type = await  _Productbrand.GetAllAsyc();
+            return Ok(Type);
+        }
+
+        #endregion
+
+
+
+
+
 
 
 

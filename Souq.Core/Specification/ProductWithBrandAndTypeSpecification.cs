@@ -13,7 +13,12 @@ namespace Souq.Core.Specification
 
 
 
-        public ProductWithBrandAndTypeSpecification()
+        public ProductWithBrandAndTypeSpecification(string? Sort, int? BrandId, int? typeId) : base(x =>
+
+
+                (!BrandId.HasValue || x.ProductBrandId == BrandId) && (!typeId.HasValue || x.ProductTypeId == typeId)
+
+        )
         {
 
             Includes.Add(x => x.ProductBrand);

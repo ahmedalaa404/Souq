@@ -1,6 +1,7 @@
 
 
 
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Souq.Api.Errors;
@@ -36,6 +37,30 @@ namespace Souq.Api
 
             builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
             builder.Services.AddAutoMapper(typeof(MapperDto).Assembly ); // to Allow Dependency injection
+
+
+
+            builder.Services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.InvalidModelStateResponseFactory = (ActionContext) =>
+                {
+                    var Errors = ActionContext.ModelState.Where(X => X.Value.Errors.Count() > 0);
+                    var RealErrors = Errors.SelectMany(X => X.Value.Errors).Select(x => x.ErrorMessage).ToArray();
+                    var ValidationErrorsResponse = new APIValidationErrorResponse()
+                    {
+                        Errors = RealErrors,
+                    };
+                    return new BadRequestObjectResult(ValidationErrorsResponse);
+
+                };
+
+            });
+
+
+            builder.Services.Configure<ApiBehaviorOptions>(X =>
+            {
+                X.SuppressModelStateInvalidFilter = true;
+            });
             #endregion
 
 
@@ -78,6 +103,7 @@ namespace Souq.Api
                 app.UseSwaggerUI();
             }
 
+            app.UseStatusCodePagesWithReExecute("/Errors/{0}");
             app.UseHttpsRedirection();
 
             app.UseAuthorization();

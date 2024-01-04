@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Souq.Api.Errors;
+using Souq.Api.Extenstion;
 using Souq.Api.Profilers;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
@@ -23,45 +24,22 @@ namespace Souq.Api
             #region Add Configurations 
             // Add services to the container.
 
-            builder.Services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            #region Configuration Swagger
+            builder.Services.Swaggers();
+            #endregion
+
+
 
             builder.Services.AddDbContext<StoreContext>(option=>
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
 
-
-
-            builder.Services.AddScoped(typeof(IGenericRepository<>),(typeof(GenericRepository<>)));
-            builder.Services.AddAutoMapper(typeof(MapperDto).Assembly ); // to Allow Dependency injection
+            builder.Services.AddApplicationServices();
+            #endregion End Configurations
 
 
 
-            builder.Services.Configure<ApiBehaviorOptions>(options =>
-            {
-                options.InvalidModelStateResponseFactory = (ActionContext) =>
-                {
-                    var Errors = ActionContext.ModelState.Where(X => X.Value.Errors.Count() > 0);
-                    var RealErrors = Errors.SelectMany(X => X.Value.Errors).Select(x => x.ErrorMessage).ToArray();
-                    var ValidationErrorsResponse = new APIValidationErrorResponse()
-                    {
-                        Errors = RealErrors,
-                    };
-                    return new BadRequestObjectResult(ValidationErrorsResponse);
-
-                };
-
-            });
-
-
-            builder.Services.Configure<ApiBehaviorOptions>(X =>
-            {
-                X.SuppressModelStateInvalidFilter = true;
-            });
-            #endregion
 
 
             var app = builder.Build();
@@ -99,8 +77,7 @@ namespace Souq.Api
             // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
-                app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerMiddleWare();
             }
 
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");

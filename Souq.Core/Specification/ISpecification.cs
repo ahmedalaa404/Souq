@@ -18,7 +18,8 @@ namespace Souq.Core.Specification
         List<Expression<Func<t,BaseEntity>>> Includes { get; set; }
 
 
-
+        Expression<Func<t,object>> OrderBy { get; set; }
+        Expression<Func<t,object>> OrderByDesc { get; set; }
 
     }
 }

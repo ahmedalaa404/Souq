@@ -20,7 +20,16 @@ namespace Souq.Repositorey
             {
                 Query = Query.Where(Specification.Criteria); // To Make Where In Inpute 
             }
-              Query = Specification.Includes.Aggregate(Query, (Q1, Include) => Q1.Include(Include));
+            if(Specification.OrderBy is not null)
+            {
+                Query = Query.OrderBy(Specification.OrderBy);
+            }
+            if(Specification.OrderByDesc is not null)
+            {
+                Query = Query.OrderByDescending(Specification.OrderByDesc);
+
+            }
+            Query = Specification.Includes.Aggregate(Query, (Q1, Include) => Q1.Include(Include));
 
             return Query;
         }

@@ -21,12 +21,12 @@ namespace Souq.Repositorey.Repo
         {
             context = Context;
         }
-        public async Task<IEnumerable<T>> GetAllAsyc()
+        public async Task<IReadOnlyList<T>> GetAllAsyc()
         {
 
             if(typeof(T)==typeof(Product))
             {
-                var AllProduct = await context.Set<Product>().Include(x=>x.ProductBrand).Include(x=>x.ProductType).ToListAsync() as IEnumerable<T>;
+                var AllProduct = await context.Set<Product>().Include(x=>x.ProductBrand).Include(x=>x.ProductType).ToListAsync() as IReadOnlyList<T>;
                 return AllProduct ;
 
             }
@@ -47,7 +47,7 @@ namespace Souq.Repositorey.Repo
 
 
         #region Function Dynamic With Specification
-        public async Task<IEnumerable<T>> GetAllAsycWithSpec(ISpecification<T> Spec)
+        public async Task<IReadOnlyList<T>> GetAllAsycWithSpec(ISpecification<T> Spec)
         {
           return await ApplySpecification(Spec).ToListAsync();
         }

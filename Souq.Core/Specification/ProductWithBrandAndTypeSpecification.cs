@@ -21,6 +21,26 @@ namespace Souq.Core.Specification
         )
         {
 
+
+            if (!string.IsNullOrEmpty(Sort))
+            {
+                switch (Sort.ToLower()) 
+                {
+                    case "price":
+                        AddOrderBy(x => x.Price);
+                        break;
+
+                    case "pricedesc":
+                        AddOrderByDesci(x => x.Price);
+                        break;
+
+
+                    default:
+                        AddOrderBy(x => x.Name);
+                        break;
+                }
+
+            }
             Includes.Add(x => x.ProductBrand);
             Includes.Add(x => x.ProductType);
         }

@@ -10,11 +10,11 @@ namespace Souq.Core.Repositories
 {
     public interface IGenericRepository<T>where T : BaseEntity
     {
-        public Task<IEnumerable<T>> GetAllAsyc();
+        public Task<IReadOnlyList<T>> GetAllAsyc();
         Task<T> GetByIdAsync(int Id);
 
 
-        public Task<IEnumerable<T>> GetAllAsycWithSpec(ISpecification<T> Spec);
+        public Task<IReadOnlyList<T>> GetAllAsycWithSpec(ISpecification<T> Spec);
         Task<T> GetByIdAsyncWithSpec(ISpecification<T> Spec);
 
 

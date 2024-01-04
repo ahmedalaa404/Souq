@@ -13,6 +13,9 @@ namespace Souq.Core.Specification
         public Expression<Func<t, bool>> Criteria { get; set; }
         public List<Expression<Func<t, BaseEntity>>> Includes { get; set; } = new List<Expression<Func<t, BaseEntity>>>();
 
+        public Expression<Func<t, object>> OrderBy { get ; set ; }
+        public Expression<Func<t, object>> OrderByDesc { get ; set ; }
+
         public BaseSpecification()
         {
             
@@ -24,6 +27,17 @@ namespace Souq.Core.Specification
           Criteria = criteria;
         }
 
+        public void AddOrderBy(Expression<Func<t, object>> order)
+        {
+            OrderBy = order;
+        }
+
+
+        public void AddOrderByDesci(Expression<Func<t, object>> order)
+        {
+            OrderByDesc = order;
+
+        }
 
 
 

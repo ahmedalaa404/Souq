@@ -5,8 +5,8 @@ namespace Souq.Api.DTOS
     public class ProductToReturnDTO
     {
         public int Id { get; set; }
-        public string Name;
-        public string Description;
+        public string Name { get; set; }
+        public string Description { get; set; }
         public string PictureUrl { get; set; } // Name Picture
 
 

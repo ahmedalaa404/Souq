@@ -28,16 +28,16 @@ namespace Souq.Api.Controllers
 
 
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ProductToReturnDTO>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IReadOnlyList<ProductToReturnDTO>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IEnumerable<ProductToReturnDTO>>> GetProducts(string? Sort,int? BrandId,int? TypeId)
+        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetProducts(string? Sort,int? BrandId,int? TypeId)
         {
             //var Product = await _ProductRepo.GetAllAsyc();
 
             var Spec = new ProductWithBrandAndTypeSpecification(Sort,BrandId, TypeId);
             var Products = await _ProductRepo.GetAllAsycWithSpec(Spec);
 
-            var ProductDto = _Mapper.Map<IEnumerable<Product>, IEnumerable<ProductToReturnDTO>>(Products);
+            var ProductDto = _Mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(Products);
 
 
 
@@ -76,13 +76,13 @@ namespace Souq.Api.Controllers
         #region Brand And Type Action 
         [HttpGet("types")]
 
-        public async Task<ActionResult<IEnumerable<ProductType>>> GetType()
+        public async Task<ActionResult<IReadOnlyList<ProductType>>> GetType()
         {
             var Type = await _ProductType.GetAllAsyc();
             return Ok(Type);
         }
         [HttpGet("brands")]
-        public async Task<ActionResult<IEnumerable<ProductBrand>>> GetBrand()
+        public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrand()
         {
             var Type = await  _Productbrand.GetAllAsyc();
             return Ok(Type);

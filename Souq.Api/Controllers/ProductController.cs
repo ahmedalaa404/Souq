@@ -23,7 +23,8 @@ namespace Souq.Api.Controllers
 
 
         [HttpGet]
-        //[ProducesDefaultResponseType(400)]
+        [ProducesResponseType(typeof(IEnumerable<ProductToReturnDTO>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<IEnumerable<ProductToReturnDTO>>> GetProducts()
         {
             //var Product = await _ProductRepo.GetAllAsyc();
@@ -45,6 +46,8 @@ namespace Souq.Api.Controllers
 
 
 
+        [ProducesResponseType(typeof(ProductToReturnDTO), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id)
         {
@@ -65,17 +68,22 @@ namespace Souq.Api.Controllers
 
 
 
-        [HttpGet("gETdSAA")]
 
 
-        public ActionResult GetData()
-        {
-            string hambozo = null;
-            var Spec = hambozo.ToString();
+        #region Test Exceptions Errors
 
-            return Ok();
-        }
+        //[HttpGet("gETdSAA")]
+
+        //public ActionResult GetData()
+        //{
+        //    string hambozo = null;
+        //    var Spec = hambozo.ToString();
+
+        //    return Ok();
+        //} 
+        //}
+        #endregion
+
+
     }
-
-
 }

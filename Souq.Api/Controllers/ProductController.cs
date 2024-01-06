@@ -42,10 +42,10 @@ namespace Souq.Api.Controllers
 
             var ProductDto = _Mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(Products);
 
+            var specCount = new GetCountFromProductWithspec(param);
+            var Count = await _ProductRepo.GetAllAsycWithSpec(specCount); 
 
-            //var Count= ;
-
-            return Ok(new PaginationDataDto<ProductToReturnDTO>(param.PageIndex, param.PageSize, 10, ProductDto));
+            return Ok(new PaginationDataDto<ProductToReturnDTO>(param.PageIndex, param.PageSize, Count.Count(), ProductDto));
         }
 
 

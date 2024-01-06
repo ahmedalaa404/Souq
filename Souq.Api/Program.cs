@@ -12,6 +12,7 @@ using Souq.Core.Repositories;
 using Souq.Repositorey.DataBase;
 using Souq.Repositorey.DataBase.DataSeed;
 using Souq.Repositorey.Repo;
+using StackExchange.Redis;
 
 namespace Souq.Api
 {
@@ -36,6 +37,12 @@ namespace Souq.Api
             });
 
             builder.Services.AddApplicationServices();
+
+            builder.Services.AddSingleton<IConnectionMultiplexer>(o =>
+            {
+                var Connection = builder.Configuration.GetConnectionString("Redis");
+               return ConnectionMultiplexer.Connect(Connection);
+            });
             #endregion End Configurations
 
 

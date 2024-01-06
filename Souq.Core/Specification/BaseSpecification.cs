@@ -15,10 +15,21 @@ namespace Souq.Core.Specification
 
         public Expression<Func<t, object>> OrderBy { get ; set ; }
         public Expression<Func<t, object>> OrderByDesc { get ; set ; }
+        public int Skip { get ; set ; }
+        public int Take { get ; set ; }
+        public bool IsPagination { get ; set ; }
+
+        public void IsPaginationWork(int Skip, int Take)
+        {
+            this.Skip = Skip;
+            this.Take = Take;
+            IsPagination = true;
+
+        }
 
         public BaseSpecification()
         {
-            
+          
         }
 
 

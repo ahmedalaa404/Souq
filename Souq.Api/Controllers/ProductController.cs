@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Souq.Api.DTOS;
 using Souq.Api.Errors;
+using Souq.Api.Helper;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
 using Souq.Core.Specification;
@@ -28,21 +29,23 @@ namespace Souq.Api.Controllers
 
 
         [HttpGet]
-        [ProducesResponseType(typeof(IReadOnlyList<ProductToReturnDTO>),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PaginationDataDto<ProductToReturnDTO>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<IReadOnlyList<ProductToReturnDTO>>> GetProducts(string? Sort,int? BrandId,int? TypeId)
+        public async Task<ActionResult<PaginationDataDto<ProductToReturnDTO>>> GetProducts([FromQuery] ProductWithParam param)
         {
             //var Product = await _ProductRepo.GetAllAsyc();
 
-            var Spec = new ProductWithBrandAndTypeSpecification(Sort,BrandId, TypeId);
+            var Spec = new ProductWithBrandAndTypeSpecification(param);
+
+
             var Products = await _ProductRepo.GetAllAsycWithSpec(Spec);
 
             var ProductDto = _Mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(Products);
 
 
+            //var Count= ;
 
-
-            return Ok(ProductDto);
+            return Ok(new PaginationDataDto<ProductToReturnDTO>(param.PageIndex, param.PageSize, 10, ProductDto));
         }
 
 

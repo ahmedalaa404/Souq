@@ -5,26 +5,28 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
+using Souq.Api.Helper;
 
 namespace Souq.Core.Specification
 {
-    public class ProductWithBrandAndTypeSpecification:BaseSpecification<Product>
+    public class ProductWithBrandAndTypeSpecification : BaseSpecification<Product>
     {
 
 
 
-        public ProductWithBrandAndTypeSpecification(string? Sort, int? BrandId, int? typeId) : base(x =>
+        public ProductWithBrandAndTypeSpecification(ProductWithParam Param) : base(x =>
 
 
-                (!BrandId.HasValue || x.ProductBrandId == BrandId) && (!typeId.HasValue || x.ProductTypeId == typeId)
-
+                (!Param.BrandId.HasValue || x.ProductBrandId == Param.BrandId)
+        && (string.IsNullOrEmpty(Param.Search)|| x.Name.ToLower().Contains(Param.Search))
+        && (!Param.TypeId.HasValue || x.ProductTypeId == Param.TypeId)
         )
         {
 
 
-            if (!string.IsNullOrEmpty(Sort))
+            if (!string.IsNullOrEmpty(Param.Sort))
             {
-                switch (Sort.ToLower()) 
+                switch (Param.Sort.ToLower())
                 {
                     case "price":
                         AddOrderBy(x => x.Price);
@@ -41,12 +43,17 @@ namespace Souq.Core.Specification
                 }
 
             }
+
+            IsPaginationWork(Param.PageSize * (Param.PageIndex - 1), Param.PageSize);
+
+
+
             Includes.Add(x => x.ProductBrand);
             Includes.Add(x => x.ProductType);
         }
 
 
-        public ProductWithBrandAndTypeSpecification(int id) : base(x=>x.Id==id)
+        public ProductWithBrandAndTypeSpecification(int id) : base(x => x.Id == id)
         {
             Includes.Add(x => x.ProductBrand);
             Includes.Add(x => x.ProductType);

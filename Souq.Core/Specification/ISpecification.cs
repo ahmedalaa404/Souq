@@ -21,5 +21,18 @@ namespace Souq.Core.Specification
         Expression<Func<t,object>> OrderBy { get; set; }
         Expression<Func<t,object>> OrderByDesc { get; set; }
 
+        #region Skip And Take
+
+         int Skip { get; set; }
+
+         int Take { get; set; }
+         bool IsPagination {  get; set; }  
+
+
+
+        #endregion
+
+
+
     }
 }

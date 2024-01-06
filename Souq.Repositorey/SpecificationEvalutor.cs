@@ -20,7 +20,21 @@ namespace Souq.Repositorey
             {
                 Query = Query.Where(Specification.Criteria); // To Make Where In Inpute 
             }
-            if(Specification.OrderBy is not null)
+
+
+            if (Specification.IsPagination == true)
+            {
+                Query = Query.Skip(Specification.Skip).Take(Specification.Take);
+            }
+
+
+
+
+
+
+
+
+            if (Specification.OrderBy is not null)
             {
                 Query = Query.OrderBy(Specification.OrderBy);
             }

@@ -35,8 +35,8 @@ namespace Souq.Repositorey.Repo
 
         public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket Basket)
         {
-          var UpdatedOrUpdate=  await redis.StringSetAsync(Basket.Id, JsonSerializer.Serialize<CustomerBasket>(Basket), TimeSpan.FromDays(1));
-            if(UpdatedOrUpdate==true)
+          var UpdatedOrCreate=  await redis.StringSetAsync(Basket.Id, JsonSerializer.Serialize<CustomerBasket>(Basket), TimeSpan.FromDays(1));
+            if(UpdatedOrCreate == true)
             {
                 return await GetBasketAsync(Basket.Id);
             }

@@ -12,6 +12,15 @@ namespace Souq.Core.Entites
         public string Id { get; set; }
         public BasketItem Items { get; set; }
 
+        public CustomerBasket()
+        {
+            Id= Guid.NewGuid().ToString();
+        }
+
+
+
+
+
         public CustomerBasket(string Id )
         {
            this.Id = Id;

@@ -11,11 +11,11 @@ namespace Souq.Core.Repositories
     {
         Task<CustomerBasket> GetBasketAsync(string Id);
 
-        Task<CustomerBasket> UpdateBasketAsync(CustomerBasket Basket); //Update And Create 
+        Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket Basket); //Update And Create 
 
 
 
-        Task<bool> DeleteUpdateAsync(string Id);
+        Task<bool> DeleteBasketAsync(string Id);
 
 
 

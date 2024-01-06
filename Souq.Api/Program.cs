@@ -43,6 +43,11 @@ namespace Souq.Api
                 var Connection = builder.Configuration.GetConnectionString("Redis");
                return ConnectionMultiplexer.Connect(Connection);
             });
+
+            builder.Services.AddScoped<IBasketRepo, BasketRepo>();
+
+
+
             #endregion End Configurations
 
 

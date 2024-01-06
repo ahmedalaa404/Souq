@@ -27,13 +27,13 @@ namespace Souq.Repositorey.Repo
                return JsonSerializer.Deserialize<CustomerBasket>(Basket);
         }
 
-        public async Task<bool> DeleteUpdateAsync(string Id)
+        public async Task<bool> DeleteBasketAsync(string Id)
         {
             return await redis.KeyDeleteAsync(Id);
         }
 
 
-        public async Task<CustomerBasket> UpdateBasketAsync(CustomerBasket Basket)
+        public async Task<CustomerBasket?> UpdateBasketAsync(CustomerBasket Basket)
         {
           var UpdatedOrUpdate=  await redis.StringSetAsync(Basket.Id, JsonSerializer.Serialize<CustomerBasket>(Basket), TimeSpan.FromDays(1));
             if(UpdatedOrUpdate==true)

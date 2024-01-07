@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Souq.Api.DTOS.IdentityDto;
 using Souq.Api.Errors;
 using Souq.Core.Entites.Identity;
+using Souq.Core.Repositories;
 
 namespace Souq.Api.Controllers
 {
@@ -10,11 +11,13 @@ namespace Souq.Api.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signIn;
+        private readonly ITokenServices tokenServices;
 
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> SignIn)
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> SignIn ,ITokenServices TokenServices)
         {
             _userManager = userManager;
             _signIn = SignIn;
+            tokenServices = TokenServices;
         }
 
 
@@ -32,7 +35,7 @@ namespace Souq.Api.Controllers
                     var Resulte = new UserDto()
                     {
                         DisplayName = User.DisplayName,
-                        Token = "Hambozo Is Sign In",
+                        Token = await tokenServices.CreateTokenAsync(User, _userManager),
                         Email = User.Email
                     };
                     return Ok(Resulte);
@@ -63,7 +66,7 @@ namespace Souq.Api.Controllers
                 {
                     Email = Model.Email,
                     DisplayName = Model.DisplayName,
-                    Token = "Hambozo"
+                    Token = await tokenServices.CreateTokenAsync(User, _userManager)
                 };
                 return Ok(UserDtos);
 

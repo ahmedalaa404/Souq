@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Souq.Repositorey\Souq.Repositorey.csproj" />
+    <ProjectReference Include="..\Souq.Services\Souq.Services.csproj" />
   </ItemGroup>
 
 </Project>

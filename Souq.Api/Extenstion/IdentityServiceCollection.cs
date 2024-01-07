@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Souq.Core.Entites.Identity;
 using Souq.Repositorey.DataBase.Identity;
 
@@ -10,7 +11,7 @@ namespace Souq.Api.Extenstion
         public static IServiceCollection AddIdentityService(this IServiceCollection Services)
         {
             Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>();
-            Services.AddAuthentication();
+            Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme);
             return Services;
         }
 

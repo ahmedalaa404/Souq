@@ -15,6 +15,7 @@ using Souq.Repositorey.DataBase;
 using Souq.Repositorey.DataBase.DataSeed;
 using Souq.Repositorey.DataBase.Identity;
 using Souq.Repositorey.Repo;
+using Souq.Services.TokenServices;
 using StackExchange.Redis;
 
 namespace Souq.Api
@@ -56,7 +57,8 @@ namespace Souq.Api
 
             builder.Services.AddScoped<IBasketRepo, BasketRepo>();
             builder.Services.AddIdentityService();
-
+            builder.Services.AddScoped<ITokenServices,TokenServices>();
+      
             #endregion End Configurations
 
 
@@ -109,8 +111,10 @@ namespace Souq.Api
 
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");
             app.UseHttpsRedirection();
-
-            app.UseAuthorization();
+            #region Authentication Authorization 
+            app.UseAuthentication();
+            app.UseAuthorization(); 
+            #endregion
 
 
             app.MapControllers();

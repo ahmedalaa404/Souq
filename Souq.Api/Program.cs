@@ -11,6 +11,7 @@ using Souq.Core.DataBase;
 using Souq.Core.Repositories;
 using Souq.Repositorey.DataBase;
 using Souq.Repositorey.DataBase.DataSeed;
+using Souq.Repositorey.DataBase.Identity;
 using Souq.Repositorey.Repo;
 using StackExchange.Redis;
 
@@ -35,6 +36,13 @@ namespace Souq.Api
             {
                 option.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
             });
+
+            builder.Services.AddDbContext<AppIdentityDbContext>(option =>
+            {
+                option.UseSqlServer(builder.Configuration.GetConnectionString("IdentityConnection"));
+            });
+
+
 
             builder.Services.AddApplicationServices();
 

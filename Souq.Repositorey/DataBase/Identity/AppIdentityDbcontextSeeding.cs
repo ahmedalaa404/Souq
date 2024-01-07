@@ -16,12 +16,12 @@ namespace Souq.Repositorey.DataBase.Identity
             {
                     var User=new AppUser()
                     { 
-                        DisplayName="Ahmed Nasser",
-                        Email="AhmedalaaYassin6@gmail.com",
+                        DisplayName="Hambozo",
+                        Email="Hambozo@gmail.com",
                         UserName= "AhmedalaaYassin6",
                         PhoneNumber="01005327706"
                     };
-                var Users= await userManager.CreateAsync(User,"Ahmed01202898890");
+                var Users= await userManager.CreateAsync(User,"Ahmed@123456");
             }
 
 

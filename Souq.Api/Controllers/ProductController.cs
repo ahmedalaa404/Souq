@@ -1,13 +1,17 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Souq.Api.DTOS;
 using Souq.Api.Errors;
 using Souq.Api.Helper;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
 using Souq.Core.Specification;
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Souq.Api.Controllers
 {
@@ -30,7 +34,7 @@ namespace Souq.Api.Controllers
 
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme)]
         [ProducesResponseType(typeof(PaginationDataDto<ProductToReturnDTO>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PaginationDataDto<ProductToReturnDTO>>> GetProducts([FromQuery] ProductWithParam param)

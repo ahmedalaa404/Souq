@@ -71,6 +71,8 @@ namespace Souq.Api
             try
             {
                 var ContextInstance = Services.GetRequiredService<StoreContext>(); // ask CLr To Create instance from dbcontext Explicety
+                var AppContextInstance = Services.GetRequiredService<AppIdentityDbContext>(); // ask CLr To Create instance from dbcontext Explicety
+                await AppContextInstance.Database.MigrateAsync();
                 await ContextInstance.Database.MigrateAsync(); //Must To Make Dispose The Connection
 
                 await StoreContextSeed.SeedData(ContextInstance);

@@ -1,6 +1,7 @@
 
 
 
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -8,6 +9,7 @@ using Souq.Api.Errors;
 using Souq.Api.Extenstion;
 using Souq.Api.Profilers;
 using Souq.Core.DataBase;
+using Souq.Core.Entites.Identity;
 using Souq.Core.Repositories;
 using Souq.Repositorey.DataBase;
 using Souq.Repositorey.DataBase.DataSeed;
@@ -53,7 +55,7 @@ namespace Souq.Api
             });
 
             builder.Services.AddScoped<IBasketRepo, BasketRepo>();
-
+            builder.Services.AddIdentity<AppUser, IdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>() ;
 
 
             #endregion End Configurations
@@ -76,6 +78,10 @@ namespace Souq.Api
                 await ContextInstance.Database.MigrateAsync(); //Must To Make Dispose The Connection
 
                 await StoreContextSeed.SeedData(ContextInstance);
+                var  Manager= Services.GetRequiredService<UserManager<AppUser>>();
+
+
+                await AppIdentityDbcontextSeeding.SeedAccount(Manager);
 
 
             }

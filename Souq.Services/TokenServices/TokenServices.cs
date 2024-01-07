@@ -48,7 +48,7 @@ namespace Souq.Services.TokenServices
 
 
             var token = new JwtSecurityToken(
-                issuer: config["Jwt:Key"],
+                issuer: config["Jwt:Isuuer"],
                 audience: config["Jwt:audience"],
                 expires: DateTime.Now.AddDays(double.Parse(config["Jwt:expires"])),
                 claims: AUTHClaims,

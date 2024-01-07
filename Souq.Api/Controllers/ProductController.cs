@@ -34,7 +34,8 @@ namespace Souq.Api.Controllers
 
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes=JwtBearerDefaults.AuthenticationScheme)]
+        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+        [Authorize]
         [ProducesResponseType(typeof(PaginationDataDto<ProductToReturnDTO>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
         public async Task<ActionResult<PaginationDataDto<ProductToReturnDTO>>> GetProducts([FromQuery] ProductWithParam param)

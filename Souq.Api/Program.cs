@@ -56,7 +56,7 @@ namespace Souq.Api
             });
 
             builder.Services.AddScoped<IBasketRepo, BasketRepo>();
-            builder.Services.AddIdentityService();
+            builder.Services.AddIdentityService(builder.Configuration);
             builder.Services.AddScoped<ITokenServices,TokenServices>();
       
             #endregion End Configurations

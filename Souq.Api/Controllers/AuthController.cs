@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Souq.Api.DTOS.IdentityDto;
 using Souq.Api.Errors;
 using Souq.Core.Entites.Identity;
 using Souq.Core.Repositories;
+using System.Security.Claims;
 
 namespace Souq.Api.Controllers
 {
@@ -76,6 +78,30 @@ namespace Souq.Api.Controllers
 
 
         }
+
+        [Authorize]
+        [HttpGet]
+
+
+        public async Task<ActionResult<UserDto>> GetUser()
+        {
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var Account = await _userManager.FindByEmailAsync(Email);
+
+            var Resulte = new UserDto()
+            {
+                DisplayName = Account.DisplayName,
+                Email = Email,
+                Token = await tokenServices.CreateTokenAsync(Account, _userManager),
+            };
+
+
+            return Ok(Resulte);
+        }
+
+
+
+
 
 
     } //Class

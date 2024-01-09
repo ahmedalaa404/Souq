@@ -6,7 +6,7 @@ namespace Souq.Api.DTOS
     {
 
 
-        public int Id { get; set; }
+        //public int Id { get; set; }
 
         [Required]
         public string FName { get; set; }

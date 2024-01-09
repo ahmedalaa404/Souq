@@ -122,12 +122,21 @@ namespace Souq.Api.Controllers
 
         public async Task<ActionResult<AddressDto>> UpdateAddress(AddressDto NewAddress)
         {
+            
+            var EmailUser = User.FindFirstValue(ClaimTypes.Email);
+            var user = await  _userManager.Users.Where(x => x.Email == EmailUser).Include(x => x.Address).FirstOrDefaultAsync();
 
 
+            user.Address.FName = NewAddress.FName;
+            user.Address.Lname = NewAddress.Lname;
+            user.Address.Country= NewAddress.Country;
+            user.Address.City= NewAddress.City;
+            user.Address.Street= NewAddress.Street; 
+            var Resulte=await _userManager.UpdateAsync(user);
+            if (!Resulte.Succeeded) return BadRequest( new ApiResponse(400) );
 
 
-
-
+            return Ok(NewAddress);
         }
 
 

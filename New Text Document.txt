@@ -1,0 +1,19 @@
+{
+  "displayName": "Hambozo",
+  "email": "Hambozo@gmail.com",
+  "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJIYW1ib3pvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiSGFtYm96b0BnbWFpbC5jb20iLCJleHAiOjE3MDQ4MDY0NzYsImlzcyI6Ik5hY3FiTTR0d1hjelZwbnZKQ2hiS042VENRTUJ6YUkvakZsdDJIc0V5dW89IiwiYXVkIjoiU291UUF1ZGRpZW5jZSJ9.4eCSy42MqqffG5c6sqwQJJGsewEQuTGW3Wk0PssVgls"
+}
+
+
+
+
+
+
+
+
+                        DisplayName="Hambozo",
+                        Email="Hambozo@gmail.com",
+                        UserName= "AhmedalaaYassin6",
+                        PhoneNumber="01005327706"
+                    };
+                var Users= await userManager.CreateAsync(User,"Ahmed@123456");

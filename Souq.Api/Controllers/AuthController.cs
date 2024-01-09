@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Souq.Api.DTOS;
 using Souq.Api.DTOS.IdentityDto;
 using Souq.Api.Errors;
 using Souq.Core.Entites.Identity;
@@ -14,12 +17,14 @@ namespace Souq.Api.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signIn;
         private readonly ITokenServices tokenServices;
+        private readonly IMapper _Maper;
 
-        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> SignIn ,ITokenServices TokenServices)
+        public AuthController(UserManager<AppUser> userManager, SignInManager<AppUser> SignIn ,ITokenServices TokenServices,IMapper Map)
         {
             _userManager = userManager;
             _signIn = SignIn;
             tokenServices = TokenServices;
+            _Maper = Map;
         }
 
 
@@ -76,7 +81,6 @@ namespace Souq.Api.Controllers
             else
                 return Unauthorized(new ApiResponse(400));
 
-
         }
 
         [Authorize]
@@ -97,6 +101,33 @@ namespace Souq.Api.Controllers
 
 
             return Ok(Resulte);
+        }
+
+
+        #region Get Address
+
+        [Authorize]
+        [HttpGet("Address")]
+        public async Task<ActionResult<AddressDto>> GetAddress()
+        {
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var user = await _userManager.Users.Where(x => x.Email == Email).Include(x => x.Address).FirstOrDefaultAsync();
+            var AddressDto = _Maper.Map<Address, AddressDto>(user.Address);
+            return Ok(AddressDto);
+        }
+        #endregion
+
+        [Authorize]
+        [HttpPut("Address")]
+
+        public async Task<ActionResult<AddressDto>> UpdateAddress(AddressDto NewAddress)
+        {
+
+
+
+
+
+
         }
 
 

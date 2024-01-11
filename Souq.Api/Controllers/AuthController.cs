@@ -59,27 +59,34 @@ namespace Souq.Api.Controllers
         {
 
 
-
-            var User = new AppUser()
+            if(!CheckEmailExists(Model.Email).Result.Value)
             {
-                Email = Model.Email,
-                DisplayName = Model.DisplayName,
-                UserName = Model.Email.Split('@')[0],
-            };
-            var Resulte = await _userManager.CreateAsync(User,Model.Password);
-            if (Resulte.Succeeded)
-            {
-                var UserDtos = new UserDto()
+                var User = new AppUser()
                 {
                     Email = Model.Email,
                     DisplayName = Model.DisplayName,
-                    Token = await tokenServices.CreateTokenAsync(User, _userManager)
+                    UserName = Model.Email.Split('@')[0],
                 };
-                return Ok(UserDtos);
+                var Resulte = await _userManager.CreateAsync(User, Model.Password);
+                if (Resulte.Succeeded)
+                {
+                    var UserDtos = new UserDto()
+                    {
+                        Email = Model.Email,
+                        DisplayName = Model.DisplayName,
+                        Token = await tokenServices.CreateTokenAsync(User, _userManager)
+                    };
+                    return Ok(UserDtos);
 
+                }
+                else
+                    return Unauthorized(new ApiResponse(400));
             }
             else
-                return Unauthorized(new ApiResponse(400));
+            {
+                return BadRequest(new ApiResponse() { Message = "This Email Is already Use Before , Must Change it " });
+            }
+
 
         }
 
@@ -139,7 +146,12 @@ namespace Souq.Api.Controllers
             return Ok(NewAddress);
         }
 
-
+            
+        [HttpGet("EmailExists")]   //Hambozo@mail.com
+        public async Task<ActionResult<Boolean>> CheckEmailExists(string Email)
+        {
+            return Ok(await _userManager.FindByEmailAsync(Email) is not null);
+        }
 
 
 

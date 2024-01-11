@@ -32,5 +32,10 @@ namespace Souq.Api.Errors
 
 
         }
+
+        public ApiResponse()
+        {
+                
+        }
     }
 }

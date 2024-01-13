@@ -1,4 +1,5 @@
 ﻿using Souq.Core.Entites.Order_Aggregate;
+using Souq.Core.Repositories;
 using Souq.Core.Services;
 using System;
 using System.Collections.Generic;
@@ -10,9 +11,16 @@ namespace Souq.Services
 {
     public class OrderServices : IOrderServices
     {
-        public Task<Order> CreateOrderAsync(string BuyerEmail, string BasketId, int DeliveryMethodId, Address ShippingAddress)
+        private readonly IBasketRepo _basketRepo;
+
+        public OrderServices(IBasketRepo BasketRepo)
         {
-           
+            _basketRepo = BasketRepo;
+        }
+
+        public async  Task<Order> CreateOrderAsync(string BuyerEmail, string BasketId, int DeliveryMethodId, Address ShippingAddress)
+        {
+            var Basket = await _basketRepo.GetBasketAsync(BasketId); // Get Basket
         }
 
         public Task<Order> GetOrderByIdForUserAsync(int orderId, string BuyerEmail)

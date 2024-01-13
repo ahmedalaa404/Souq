@@ -32,11 +32,11 @@ namespace Souq.Repositorey.DataBase.Configurations
 
 
             #region Total Price
-            builder.Property(o => o.SubTotal).HasColumnType("Decimal(18,2)"); 
+            builder.Property(o => o.SubTotal).HasColumnType("Decimal(18,2)");
             #endregion
 
-
-
+            
+            builder.HasOne(x=>x.DeliveryMethod).WithMany().HasForeignKey(x=>x.DeliveryMethodId).IsRequired(false).OnDelete(deleteBehavior: DeleteBehavior.SetNull);
 
 
 

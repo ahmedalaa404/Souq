@@ -70,6 +70,22 @@ namespace Souq.Repositorey.Repo
             return SpecificationEvalutor<T>.GetQuery(context.Set<T>(), Spec);
         }
 
+        public async Task Add(T Entity)
+        {
+           await context.Set<T>().AddAsync(Entity);
+        }
+
+        public void Update(T Entity)
+        {
+             context.Set<T>().Update(Entity);
+
+        }
+
+        public void Delete(T Entity)
+        {
+            context.Set<T>().Remove(Entity);
+        }
+
         #endregion
 
 

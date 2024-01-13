@@ -10,7 +10,7 @@ namespace Souq.Core.Entites
     {
 
         public string Id { get; set; }
-        public BasketItem Items { get; set; }
+        public List<BasketItem> Items { get; set; }
 
         public CustomerBasket()
         {

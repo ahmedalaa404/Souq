@@ -19,5 +19,14 @@ namespace Souq.Core.Repositories
 
 
 
+
+        Task Add(T Entity);// Recored in entity
+
+
+        void Update(T Entity);
+        void Delete(T Entity);
+
+
+
     }
 }

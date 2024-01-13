@@ -10,6 +10,13 @@ namespace Souq.Core.Entites.Order_Aggregate
 {
     public class DeliveryMethod : BaseEntity
     {
+        public DeliveryMethod(string shortName, string description, decimal cost, string deliveryTime )
+        {
+            ShortName = shortName;
+            Description = description;
+            Cost = cost;
+            DeliveryTime = deliveryTime;
+        }
 
         public string ShortName { get; set; }
 
@@ -19,7 +26,7 @@ namespace Souq.Core.Entites.Order_Aggregate
 
         public string DeliveryTime { get; set; }
 
-        ICollection<OrderItem> Items =new  HashSet<OrderItem>();
+        //ICollection<OrderItem> Items =new  HashSet<OrderItem>();
 
 
     }

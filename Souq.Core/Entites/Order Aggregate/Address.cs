@@ -8,6 +8,18 @@ namespace Souq.Core.Entites.Order_Aggregate
 {
     public class Address // Refer To Address Not Map in Databases
     {
+        public Address()
+        {
+            
+        }
+        public Address(string fName, string lName, string street, string city, string country)
+        {
+            FName = fName;
+            LName = lName;
+            Street = street;
+            City = city;
+            Country = country;
+        }
 
         public string FName { get; set; }
         public string  LName { get; set; }

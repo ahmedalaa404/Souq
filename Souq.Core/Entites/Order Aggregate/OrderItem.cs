@@ -9,6 +9,16 @@ namespace Souq.Core.Entites.Order_Aggregate
 {
     public class OrderItem:BaseEntity // In Database // Product Have U Add In Order
     {
+        public OrderItem()
+        {
+            
+        }
+        public OrderItem(ProductItemOrder product, decimal price, int quantity)
+        {
+            Product = product;
+            Price = price;
+            Quantity = quantity;
+        }
 
         public ProductItemOrder Product { get; set; } //Not Have Change
 

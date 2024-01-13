@@ -21,7 +21,7 @@ namespace Souq.Repositorey.DataBase
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly()); // Reflactions 
             base.OnModelCreating(modelBuilder);
         }
 

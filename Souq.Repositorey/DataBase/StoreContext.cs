@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Souq.Core.DataBase;
+using Souq.Core.Entites.Order_Aggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,7 +28,18 @@ namespace Souq.Repositorey.DataBase
 
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductBrand> ProductBrands { get; set; }
+
         public DbSet<ProductType> ProductTypes { get; set; }
+
+
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
+
+
+
+
+
 
     }
 }

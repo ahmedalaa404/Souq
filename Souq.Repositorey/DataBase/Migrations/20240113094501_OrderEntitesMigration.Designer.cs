@@ -12,7 +12,7 @@ using Souq.Repositorey.DataBase;
 namespace Souq.Repositorey.DataBase.Migrations
 {
     [DbContext(typeof(StoreContext))]
-    [Migration("20240113093712_OrderEntitesMigration")]
+    [Migration("20240113094501_OrderEntitesMigration")]
     partial class OrderEntitesMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -157,7 +157,7 @@ namespace Souq.Repositorey.DataBase.Migrations
 
                     b.HasIndex("DeliveryMethodId");
 
-                    b.ToTable("Order");
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("Souq.Core.Entites.Order_Aggregate.OrderItem", b =>
@@ -176,7 +176,7 @@ namespace Souq.Repositorey.DataBase.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("OrderItem");
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("Souq.Core.DataBase.Product", b =>
@@ -233,7 +233,7 @@ namespace Souq.Repositorey.DataBase.Migrations
 
                             b1.HasKey("OrderId");
 
-                            b1.ToTable("Order");
+                            b1.ToTable("Orders");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderId");
@@ -265,7 +265,7 @@ namespace Souq.Repositorey.DataBase.Migrations
 
                             b1.HasKey("OrderItemId");
 
-                            b1.ToTable("OrderItem");
+                            b1.ToTable("OrderItems");
 
                             b1.WithOwner()
                                 .HasForeignKey("OrderItemId");

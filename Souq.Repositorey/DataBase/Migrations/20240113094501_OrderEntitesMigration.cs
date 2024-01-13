@@ -26,7 +26,7 @@ namespace Souq.Repositorey.DataBase.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderItem",
+                name: "OrderItems",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -39,11 +39,11 @@ namespace Souq.Repositorey.DataBase.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderItem", x => x.Id);
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Order",
+                name: "Orders",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -56,34 +56,34 @@ namespace Souq.Repositorey.DataBase.Migrations
                     ShippingAddress_Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShippingAddress_City = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ShippingAddress_Country = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DeliveryMethodId = table.Column<int>(type: "int", nullable: false),
+                    DeliveryMethodId = table.Column<int>(type: "int", nullable: true),
                     SubTotal = table.Column<decimal>(type: "Decimal(18,2)", nullable: false),
                     PaymentIntentId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Order", x => x.Id);
+                    table.PrimaryKey("PK_Orders", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Order_DeliveryMethod_DeliveryMethodId",
+                        name: "FK_Orders_DeliveryMethod_DeliveryMethodId",
                         column: x => x.DeliveryMethodId,
                         principalTable: "DeliveryMethod",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Order_DeliveryMethodId",
-                table: "Order",
+                name: "IX_Orders_DeliveryMethodId",
+                table: "Orders",
                 column: "DeliveryMethodId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Order");
+                name: "OrderItems");
 
             migrationBuilder.DropTable(
-                name: "OrderItem");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "DeliveryMethod");

@@ -19,5 +19,8 @@ namespace Souq.Core.Entites.Order_Aggregate
 
         public string DeliveryTime { get; set; }
 
+        ICollection<OrderItem> Items =new  HashSet<OrderItem>();
+
+
     }
 }

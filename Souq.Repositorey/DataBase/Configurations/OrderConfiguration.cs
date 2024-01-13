@@ -16,8 +16,17 @@ namespace Souq.Repositorey.DataBase.Configurations
         {
             #region One To One Total of to relations
             builder.OwnsOne(o => o.ShippingAddress, shippingAddress => shippingAddress.WithOwner());
-
             #endregion
+            builder.HasMany<OrderItem>().WithOne();
+
+
+
+
+
+
+
+
+
 
             #region Data Store 
 

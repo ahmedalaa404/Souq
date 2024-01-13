@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Souq.Core.Repositories
+namespace Souq.Core.Services
 {
     public interface ITokenServices
     {

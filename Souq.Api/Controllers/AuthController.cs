@@ -7,7 +7,7 @@ using Souq.Api.DTOS;
 using Souq.Api.DTOS.IdentityDto;
 using Souq.Api.Errors;
 using Souq.Core.Entites.Identity;
-using Souq.Core.Repositories;
+using Souq.Core.Services;
 using System.Security.Claims;
 
 namespace Souq.Api.Controllers

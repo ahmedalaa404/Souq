@@ -1,4 +1,5 @@
 ﻿using Souq.Core.DataBase;
+using Souq.Core.Entites.Order_Aggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,6 +43,9 @@ namespace Souq.Repositorey.DataBase.DataSeed
 
 
             #endregion
+
+
+            await SeedDeliveryMethod(Context);
            await Context.SaveChangesAsync();
 
         }
@@ -118,7 +122,21 @@ namespace Souq.Repositorey.DataBase.DataSeed
 
 
 
+        public async static Task SeedDeliveryMethod(StoreContext Context)
+        {
 
+            var FilePath = File.ReadAllText("../Souq.Repositorey/DataBase/DataSeed/delivery.json");
+
+            var Data = JsonSerializer.Deserialize<List<DeliveryMethod>>(FilePath);
+            if(Data is not null && Data.Count()>0)
+            {
+                foreach (var item in Data)
+                {
+                    await Context.Set<DeliveryMethod>().AddAsync(item);
+                }
+            }
+
+        }
 
 
 

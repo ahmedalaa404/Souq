@@ -11,6 +11,7 @@ using Souq.Api.Profilers;
 using Souq.Core.DataBase;
 using Souq.Core.Entites.Identity;
 using Souq.Core.Repositories;
+using Souq.Core.Services;
 using Souq.Repositorey.DataBase;
 using Souq.Repositorey.DataBase.DataSeed;
 using Souq.Repositorey.DataBase.Identity;

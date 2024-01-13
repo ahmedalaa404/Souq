@@ -3,16 +3,24 @@
         {
             
         }
-        public Order(string buyerEmail, Address shippingAddress, int deliveryMethodId, DeliveryMethod deliveryMethod, decimal subTotal)
+
+        public Order(string buyerEmail, Address shippingAddress, DeliveryMethod deliveryMethod, decimal subTotal, ICollection<OrderItem> items)
         {
             BuyerEmail = buyerEmail;
+
+
             ShippingAddress = shippingAddress;
-            DeliveryMethodId = deliveryMethodId;
+
             DeliveryMethod = deliveryMethod;
             SubTotal = subTotal;
+            Items = items;
         }
 
-        public string BuyerEmail { get; set; }        public DateTimeOffset  OrderDate { get; set; }=DateTimeOffset.Now;        public OrderStatus Status { get; set; } = OrderStatus.Pending;        public Address ShippingAddress { get; set; } // One To One   Total of the Two Dimations        //[not]        public int DeliveryMethodId { get; set; }        public DeliveryMethod DeliveryMethod { get; set; }        public decimal   SubTotal    { get; set; }
+        public string BuyerEmail { get; set; }        public DateTimeOffset  OrderDate { get; set; }=DateTimeOffset.Now;        public OrderStatus Status { get; set; } = OrderStatus.Pending;        public Address ShippingAddress { get; set; } // One To One   Total of the Two Dimations
+        public ICollection<OrderItem> Items = new HashSet<OrderItem>();
+
+        //[not]
+        public int? DeliveryMethodId { get; set; }        public DeliveryMethod DeliveryMethod { get; set; }        public decimal   SubTotal    { get; set; }
 
 
-        public ICollection<OrderItem> Items=new HashSet<OrderItem>();        //[NotMapped] // Don`t Mapp To Column In DataBase        //public decimal Total => SubTotal + DeliveryMethod.Cost;  //drevied Attribute - SubTotal+DeliveryCoast        #region Dervied Attribute        public decimal GetTotal()        {            return SubTotal + DeliveryMethod.Cost;        }        #endregion        public string PaymentIntentId { get; set; } = string.Empty;    }}
+        //[NotMapped] // Don`t Mapp To Column In DataBase        //public decimal Total => SubTotal + DeliveryMethod.Cost;  //drevied Attribute - SubTotal+DeliveryCoast        #region Dervied Attribute        public decimal GetTotal()        {            return SubTotal + DeliveryMethod.Cost;        }        #endregion        public string PaymentIntentId { get; set; } = string.Empty;    }}

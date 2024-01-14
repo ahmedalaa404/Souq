@@ -2,7 +2,8 @@
 using Souq.Api.DTOS;
 using Souq.Core.DataBase;
 using Souq.Core.Entites;
-using Souq.Core.Entites.Identity;
+using Identity= Souq.Core.Entites.Identity;
+using Aggregate=Souq.Core.Entites.Order_Aggregate;
 
 namespace Souq.Api.Profilers
 {
@@ -14,9 +15,10 @@ namespace Souq.Api.Profilers
            .ForMember(distantion => distantion.ProductType, o => o.MapFrom(Source => Source.ProductBrand.Name))
            .ForMember(Dis => Dis.PictureUrl, O => O.MapFrom<ProductPictureUrlResolver>());
 
-            CreateMap<Address, AddressDto>().ReverseMap();
+            CreateMap<Identity.Address, AddressDto>().ReverseMap();
             CreateMap<CustomerBasketDTO, CustomerBasket>().ReverseMap();
             CreateMap<BasketItem, BasketItemDTO>().ReverseMap();
+            CreateMap<AddressDto, Aggregate.Address>().ReverseMap();
 
 
 

@@ -4,6 +4,7 @@ using Souq.Core.Repositories;
 using Souq.Repositorey.DataBase;
 using Souq.Repositorey.Repo;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,11 +16,11 @@ namespace Souq.Repositorey
     {
         private readonly StoreContext context;
 
-        private Dictionary<string, GenericRepository<BaseEntity>> _Repositorey;
+        private Hashtable _Repositorey;
         public UniteOFWork(StoreContext Context)
         {
             context = Context;
-            _Repositorey = new Dictionary<string, GenericRepository<BaseEntity>>();
+            _Repositorey = new Hashtable();
         }
         #region OLD
         //public IGenericRepository<Product> ProductRepo { get ; set ; }
@@ -32,12 +33,12 @@ namespace Souq.Repositorey
 
         public async Task<int> Complete()
         {
-            await context.SaveChangesAsync();
+            return await context.SaveChangesAsync();
         }
 
         public ValueTask DisposeAsync()
         {
-       
+            return context.DisposeAsync();
         }
 
         public IGenericRepository<TEntity> Repositorey<TEntity>() where TEntity : BaseEntity
@@ -46,10 +47,13 @@ namespace Souq.Repositorey
             //_Repositorey.Add(Type, GenericRepository<Type>());
 
 
-            if (_Repositorey.ContainsKey(Type))
+            if (!_Repositorey.ContainsKey(Type))
             {
-                var Repo= new GenericRepository<TEntity>(context); 
+                var Repo= new GenericRepository<TEntity>(context) ;
+                _Repositorey.Add(Type, Repo);
             }
+
+            return _Repositorey[Type] as IGenericRepository<TEntity>;
         }
     }
 }

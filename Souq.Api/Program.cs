@@ -12,10 +12,12 @@ using Souq.Core.DataBase;
 using Souq.Core.Entites.Identity;
 using Souq.Core.Repositories;
 using Souq.Core.Services;
+using Souq.Repositorey;
 using Souq.Repositorey.DataBase;
 using Souq.Repositorey.DataBase.DataSeed;
 using Souq.Repositorey.DataBase.Identity;
 using Souq.Repositorey.Repo;
+using Souq.Services;
 using Souq.Services.TokenServices;
 using StackExchange.Redis;
 
@@ -47,7 +49,6 @@ namespace Souq.Api
             });
 
 
-
             builder.Services.AddApplicationServices();
 
             builder.Services.AddSingleton<IConnectionMultiplexer>(o =>
@@ -59,7 +60,10 @@ namespace Souq.Api
             builder.Services.AddScoped<IBasketRepo, BasketRepo>();
             builder.Services.AddIdentityService(builder.Configuration);
             builder.Services.AddScoped<ITokenServices,TokenServices>();
-      
+            builder.Services.AddScoped<IUniteOFWork, UniteOFWork>();
+            builder.Services.AddScoped<IOrderServices, OrderServices>();//perRequest
+
+
             #endregion End Configurations
 
 

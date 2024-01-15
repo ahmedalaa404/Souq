@@ -11,7 +11,7 @@ namespace Souq.Core.Specification
     public class BaseSpecification<t> : ISpecification<t> where t : BaseEntity
     {
         public Expression<Func<t, bool>> Criteria { get; set; }
-        public List<Expression<Func<t, BaseEntity>>> Includes { get; set; } = new List<Expression<Func<t, BaseEntity>>>();
+        public List<Expression<Func<t, object>>> Includes { get; set; } = new List<Expression<Func<t, object>>>();
 
         public Expression<Func<t, object>> OrderBy { get ; set ; }
         public Expression<Func<t, object>> OrderByDesc { get ; set ; }

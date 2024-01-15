@@ -2,7 +2,7 @@
 using Souq.Core.Entites.Order_Aggregate;
 using Souq.Core.Repositories;
 using Souq.Core.Services;
-
+using Souq.Core.Specification.OrderSpecification;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,14 +80,21 @@ namespace Souq.Services
 
         }
 
+        public async  Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string BuyerEmail)
+        {
+            var Spec = new OrderSpecification(BuyerEmail);
+            var Orders = await uniteOFWork.Repositorey<Order>().GetAllAsycWithSpec(Spec);
+            return Orders;
+
+
+        }
+
+
         //public Task<Order> GetOrderByIdForUserAsync(int orderId, string BuyerEmail)
         //{
 
         //}
 
-        //public Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string BuyerEmail)
-        //{
 
-        //}
     }
 }

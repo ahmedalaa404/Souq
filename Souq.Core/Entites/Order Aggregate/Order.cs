@@ -17,7 +17,7 @@
         }
 
         public string BuyerEmail { get; set; }        public DateTimeOffset  OrderDate { get; set; }=DateTimeOffset.Now;        public OrderStatus Status { get; set; } = OrderStatus.Pending;        public Address ShippingAddress { get; set; } // One To One   Total of the Two Dimations
-        public ICollection<OrderItem> Items = new HashSet<OrderItem>();
+        public ICollection<OrderItem> Items { get; set; } = new HashSet<OrderItem>();
 
         //[not]
         public int? DeliveryMethodId { get; set; }        public DeliveryMethod DeliveryMethod { get; set; }        public decimal   SubTotal    { get; set; }

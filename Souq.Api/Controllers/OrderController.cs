@@ -44,6 +44,21 @@ namespace Souq.Api.Controllers
 
         }
 
+        [HttpGet]
+
+        [Authorize]
+
+        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrderForUser()
+        {
+            var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
+
+            var order = await _orderServices.GetOrdersForUserAsync(BuyerEmail);
+
+            return Ok(order);
+
+
+        }
+
 
     }
 }

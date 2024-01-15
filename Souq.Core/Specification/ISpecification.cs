@@ -15,7 +15,7 @@ namespace Souq.Core.Specification
 
 
         // U can Hae More Includes That Must IT List
-        List<Expression<Func<t,BaseEntity>>> Includes { get; set; }
+        List<Expression<Func<t, object>>> Includes { get; set; }
 
 
         Expression<Func<t,object>> OrderBy { get; set; }

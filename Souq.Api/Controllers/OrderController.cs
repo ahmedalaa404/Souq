@@ -84,7 +84,9 @@ namespace Souq.Api.Controllers
 
             var DeliveryMethod= await _UniteOFWork.Repositorey<DeliveryMethod>().GetAllAsyc();
 
-
+            if(DeliveryMethod is not null)
+                return Ok(DeliveryMethod);
+            return BadRequest(new ApiResponse(404));
         }
 
 

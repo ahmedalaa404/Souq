@@ -17,6 +17,9 @@ namespace Souq.Core.Specification.OrderSpecification
         }
 
 
-
+        public OrderSpecification(int id,string Email) : base(x => (x.BuyerEmail == Email)&&(x.Id==id)  )
+        {
+            Includes.Add(x => x.DeliveryMethod);
+            Includes.Add(x => x.Items);        }
     }
 }

@@ -15,7 +15,7 @@ namespace Souq.Core.Services
 
         Task<IReadOnlyList<Order>> GetOrdersForUserAsync(string BuyerEmail);
 
-        //Task<Order> GetOrderByIdForUserAsync(int orderId, string BuyerEmail); // Get OrderFor User When Take OrderID,BuyeEmail
+        Task<Order> GetOrderByIdForUserAsync(int orderId, string BuyerEmail); // Get OrderFor User When Take OrderID,BuyeEmail
 
     }
 }

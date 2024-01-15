@@ -55,10 +55,20 @@ namespace Souq.Api.Controllers
             var order = await _orderServices.GetOrdersForUserAsync(BuyerEmail);
 
             return Ok(order);
-
-
         }
 
 
+
+        [HttpGet("{id}")]
+        [ProducesResponseType(typeof(Order),StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<Order>> GetOrderById(int Id)
+        {
+            var Email = User.FindFirstValue(ClaimTypes.Email);
+            var Order = await _orderServices.GetOrderByIdForUserAsync(Id, Email);
+            if (Order is null) return BadRequest(new ApiResponse(400));
+            else
+                return Ok(Order);
+        }
     }
 }

@@ -90,10 +90,12 @@ namespace Souq.Services
         }
 
 
-        //public Task<Order> GetOrderByIdForUserAsync(int orderId, string BuyerEmail)
-        //{
-
-        //}
+        public async Task<Order> GetOrderByIdForUserAsync(int orderId, string BuyerEmail)
+        {
+            var Spec = new OrderSpecification(orderId, BuyerEmail);
+            var Orders = await uniteOFWork.Repositorey<Order>().GetByIdAsyncWithSpec(Spec);
+            return Orders;
+        }
 
 
     }

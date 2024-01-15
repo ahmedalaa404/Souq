@@ -169,6 +169,9 @@ namespace Souq.Repositorey.DataBase.Migrations
                     b.Property<int?>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("OrderId1")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("Price")
                         .HasColumnType("Decimal(18,2)");
 
@@ -178,6 +181,8 @@ namespace Souq.Repositorey.DataBase.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("OrderId");
+
+                    b.HasIndex("OrderId1");
 
                     b.ToTable("OrderItems");
                 });
@@ -250,8 +255,12 @@ namespace Souq.Repositorey.DataBase.Migrations
             modelBuilder.Entity("Souq.Core.Entites.Order_Aggregate.OrderItem", b =>
                 {
                     b.HasOne("Souq.Core.Entites.Order_Aggregate.Order", null)
-                        .WithMany()
+                        .WithMany("Items")
                         .HasForeignKey("OrderId");
+
+                    b.HasOne("Souq.Core.Entites.Order_Aggregate.Order", null)
+                        .WithMany()
+                        .HasForeignKey("OrderId1");
 
                     b.OwnsOne("Souq.Core.Entites.Order_Aggregate.ProductItemOrder", "Product", b1 =>
                         {
@@ -279,6 +288,11 @@ namespace Souq.Repositorey.DataBase.Migrations
 
                     b.Navigation("Product")
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Souq.Core.Entites.Order_Aggregate.Order", b =>
+                {
+                    b.Navigation("Items");
                 });
 #pragma warning restore 612, 618
         }

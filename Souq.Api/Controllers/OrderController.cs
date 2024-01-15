@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Souq.Api.DTOS;
 using Souq.Api.Errors;
 using Souq.Core.Entites.Order_Aggregate;
+using Souq.Core.Repositories;
 using Souq.Core.Services;
 using System.Security.Claims;
 
@@ -16,11 +17,13 @@ namespace Souq.Api.Controllers
     {
         private readonly IOrderServices _orderServices;
         private readonly IMapper _Mapper;
+        private readonly IUniteOFWork _UniteOFWork;
 
-        public OrderController(IOrderServices OrderServices , IMapper Map)
+        public OrderController(IOrderServices OrderServices , IMapper Map , IUniteOFWork UniteOFWork)
         {
             _orderServices = OrderServices;
             _Mapper = Map;
+            _UniteOFWork = UniteOFWork;
         }
 
         [Authorize]
@@ -70,5 +73,23 @@ namespace Souq.Api.Controllers
             else
                 return Ok(Order);
         }
+
+
+        [HttpGet("DeliveryMethods")] // GET: /API/ORDERS
+
+        [ProducesResponseType(typeof(DeliveryMethod), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods()
+        {
+
+            var DeliveryMethod= await _UniteOFWork.Repositorey<DeliveryMethod>().GetAllAsyc();
+
+
+        }
+
+
+
+
+
     }
 }

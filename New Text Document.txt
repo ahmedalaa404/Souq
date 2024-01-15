@@ -1,15 +1,6 @@
 {
   "displayName": "Hambozo",
   "email": "Hambozo@gmail.com",
-  "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJIYW1ib3pvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiSGFtYm96b0BnbWFpbC5jb20iLCJleHAiOjE3MDUzOTk2NjEsImlzcyI6IlNvdVEiLCJhdWQiOiJTb3VRQXVkZGllbmNlIn0.nrcPFc4eimsU_35IVToVIdumHZn51mRGGG_akDa1etE"
+  "token": "eyJhbGciOiJodHRwOi8vd3d3LnczLm9yZy8yMDAxLzA0L3htbGRzaWctbW9yZSNobWFjLXNoYTI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9naXZlbm5hbWUiOiJIYW1ib3pvIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoiSGFtYm96b0BnbWFpbC5jb20iLCJleHAiOjE3MDU0ODMwMjUsImlzcyI6IlNvdVEiLCJhdWQiOiJTb3VRQXVkZGllbmNlIn0.JAZPYs6HeSI1yFvHtMjN7-f_qf7fp4cfLpbuC_50dNs"
 }
-
-
-
-
-                        DisplayName="Hambozo",
-                        Email="Hambozo@gmail.com",
-                        UserName= "AhmedalaaYassin6",
-                        PhoneNumber="01005327706"
-                    };
-                var Users= await userManager.CreateAsync(User,"Ahmed@123456");
+var Users= await userManager.CreateAsync(User,"Ahmed@123456");

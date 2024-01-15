@@ -7,6 +7,7 @@ using Souq.Api.Errors;
 using Souq.Core.Entites.Order_Aggregate;
 using Souq.Core.Repositories;
 using Souq.Core.Services;
+
 using System.Security.Claims;
 
 
@@ -32,7 +33,7 @@ namespace Souq.Api.Controllers
         [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status400BadRequest)]
 
 
-        public async Task<ActionResult<Order>> CreateOrder(OrderDto  orderDto  /* From Query String*/ )
+        public async Task<ActionResult<OrderToReturnDto>> CreateOrder(OrderDto  orderDto  /* From Query String*/ )
         {
 
             var BuyerEmailUser=User.FindFirstValue(ClaimTypes.Email);
@@ -43,7 +44,8 @@ namespace Souq.Api.Controllers
             // basketId   // Shipping Address   // DeliveryMethod
             if (Order is null)
                 return BadRequest(new ApiResponse(400));
-            return Ok(Order);   
+            var Dto = _Mapper.Map<Order, OrderToReturnDto>(Order);
+            return Ok(Dto);   
 
         }
 
@@ -51,13 +53,14 @@ namespace Souq.Api.Controllers
 
         [Authorize]
 
-        public async Task<ActionResult<IReadOnlyList<Order>>> GetOrderForUser()
+        public async Task<ActionResult<IReadOnlyList<OrderToReturnDto>>> GetOrderForUser()
         {
             var BuyerEmail = User.FindFirstValue(ClaimTypes.Email);
 
             var order = await _orderServices.GetOrdersForUserAsync(BuyerEmail);
-
-            return Ok(order);
+            var Dto = _Mapper.Map<IReadOnlyList<Order>, IReadOnlyList<OrderToReturnDto>>(order);
+            return Ok(Dto);
+        
         }
 
 
@@ -65,13 +68,19 @@ namespace Souq.Api.Controllers
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(Order),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse),StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<Order>> GetOrderById(int Id)
+        public async Task<ActionResult<OrderToReturnDto>> GetOrderById(int Id)
         {
             var Email = User.FindFirstValue(ClaimTypes.Email);
             var Order = await _orderServices.GetOrderByIdForUserAsync(Id, Email);
-            if (Order is null) return BadRequest(new ApiResponse(400));
+            if (Order is null)
+                return BadRequest(new ApiResponse(400));
             else
-                return Ok(Order);
+            {
+                var Dto = _Mapper.Map<Order, OrderToReturnDto>(Order);
+                return Ok(Dto);
+            }
+
+
         }
 
 

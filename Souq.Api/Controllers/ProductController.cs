@@ -11,6 +11,7 @@ using Souq.Api.Helper;
 using Souq.Core.DataBase;
 using Souq.Core.Repositories;
 using Souq.Core.Specification;
+using Souq.Repositorey;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Souq.Api.Controllers
@@ -18,18 +19,20 @@ namespace Souq.Api.Controllers
 
     public class ProductController : ApiController // Container For Common Things Between All Controllers
     {
-        private readonly IGenericRepository<Product> _ProductRepo;
+        //private readonly IGenericRepository<Product> _ProductRepo;
         private readonly IMapper _Mapper;
-        private readonly IGenericRepository<ProductBrand> _Productbrand;
-        private readonly IGenericRepository<ProductType> _ProductType;
+        //private readonly IGenericRepository<ProductBrand> _Productbrand;
+        //private readonly IGenericRepository<ProductType> _ProductType;
+        private readonly IUniteOFWork _UniteOfWork;
 
-        public ProductController(IGenericRepository<Product> ProductRepo ,IMapper Mapper, 
-            IGenericRepository<ProductBrand> Productbrand, IGenericRepository<ProductType> ProductType)
+        public ProductController(/*IGenericRepository<Product> ProductRepo ,*/IMapper Mapper, 
+        /*    IGenericRepository<ProductBrand> Productbrand, IGenericRepository<ProductType> ProductType */IUniteOFWork uniteofWotk)
         {
-            _ProductRepo = ProductRepo;
-            _Mapper = Mapper;
-            _Productbrand = Productbrand;
-            _ProductType= ProductType;
+            //_ProductRepo = ProductRepo;
+            //_Mapper = Mapper;
+            //_Productbrand = Productbrand;
+            //_ProductType= ProductType;
+            this._UniteOfWork = uniteofWotk;
         }
 
 
@@ -42,15 +45,16 @@ namespace Souq.Api.Controllers
         {
             //var Product = await _ProductRepo.GetAllAsyc();
 
+            
             var Spec = new ProductWithBrandAndTypeSpecification(param);
 
 
-            var Products = await _ProductRepo.GetAllAsycWithSpec(Spec);
+            var Products = await _UniteOfWork.Repositorey<Product>().GetAllAsycWithSpec(Spec);
 
             var ProductDto = _Mapper.Map<IReadOnlyList<Product>, IReadOnlyList<ProductToReturnDTO>>(Products);
 
             var specCount = new GetCountFromProductWithspec(param);
-            var Count = await _ProductRepo.GetAllAsycWithSpec(specCount); 
+            var Count = await _UniteOfWork.Repositorey<Product>().GetAllAsycWithSpec(specCount); 
 
             return Ok(new PaginationDataDto<ProductToReturnDTO>(param.PageIndex, param.PageSize, Count.Count(), ProductDto));
         }
@@ -70,7 +74,7 @@ namespace Souq.Api.Controllers
 
             var Spec = new ProductWithBrandAndTypeSpecification( id);
 
-            var Product =await _ProductRepo.GetByIdAsyncWithSpec(Spec);
+            var Product =await _UniteOfWork.Repositorey<Product>().GetByIdAsyncWithSpec(Spec);
 
             if (Product is null) 
                 return NotFound(new ApiResponse(404,null));
@@ -88,13 +92,17 @@ namespace Souq.Api.Controllers
 
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetType()
         {
-            var Type = await _ProductType.GetAllAsyc();
+            var Type = await _UniteOfWork.Repositorey<ProductType>().GetAllAsyc();
             return Ok(Type);
         }
+
+
+
+
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrand()
         {
-            var Type = await  _Productbrand.GetAllAsyc();
+            var Type = await _UniteOfWork.Repositorey<ProductBrand>().GetAllAsyc();
             return Ok(Type);
         }
 

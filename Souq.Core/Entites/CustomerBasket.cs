@@ -26,5 +26,13 @@ namespace Souq.Core.Entites
            this.Id = Id;
         }
 
+
+
+
+        public string PaymentId { get; set; }
+
+        public string ClientSecret { get; set; }
+        public int? DeliveryMethodId { get; set; }
+        public decimal ShippingPrice { get; set; }
     }
 }

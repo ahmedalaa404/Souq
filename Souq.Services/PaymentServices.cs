@@ -23,7 +23,7 @@ namespace Souq.Services
         {
             Config = config;
             BasketRepo = basketRepo;
-            UniteOFWork = UniteOFWork;
+            this.UniteOFWork = UniteOFWork;
         }
         public async Task<CustomerBasket?> CreateOrUpdatePaymentIntent(string BasketId)
         {
@@ -52,15 +52,32 @@ namespace Souq.Services
 
 
                     PaymentIntent PaymentIntent;
+                    var Services = new PaymentIntentService();
                     if(string.IsNullOrEmpty(basket.PaymentId))// Create In The Firest
                     {
-                        //var Options=new PaymentIntentCreateOptions()
-                        //{
-                        //    Amount
-                        //}
+                        var Options = new PaymentIntentCreateOptions()
+                        {
+                            Amount = (long)basket.Items.Sum(x => x.Price * item.Quantity + ShippingPrice) * 100,// Cent;
+                            Currency = "usd",
+                            PaymentMethodTypes = new List<string>() { "card" }
+
+
+                        };
+
+                        PaymentIntent= await Services.CreateAsync(Options);
+                        basket.PaymentId = PaymentIntent.Id;
+                        basket.ClientSecret = PaymentIntent.ClientSecret;
+
                     }
                     else //Update
                     {
+
+                        var Options = new PaymentIntentUpdateOptions()
+                        {
+                            Amount = (long)basket.Items.Sum(x => x.Price * item.Quantity + ShippingPrice) * 100,// Cent;
+
+                        };
+                       await Services.UpdateAsync(basket.PaymentId,Options);
 
                     }
 
@@ -69,7 +86,9 @@ namespace Souq.Services
 
 
             }
+            await BasketRepo.UpdateBasketAsync(basket);
 
+            return basket;
         }
     }
 }

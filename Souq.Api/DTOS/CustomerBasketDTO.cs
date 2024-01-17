@@ -12,7 +12,11 @@ namespace Souq.Api.DTOS
 
 
         public List<BasketItemDTO> Items { get; set; }
+        public string PaymentId { get; set; }
 
+        public string ClientSecret { get; set; }
+        public int? DeliveryMethodId { get; set; }
+        public decimal ShippingPrice { get; set; }
 
     }
 }

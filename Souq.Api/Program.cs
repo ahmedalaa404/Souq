@@ -4,6 +4,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Souq.Api.Errors;
 using Souq.Api.Extenstion;
@@ -62,15 +63,20 @@ namespace Souq.Api
             builder.Services.AddScoped<ITokenServices,TokenServices>();
             builder.Services.AddScoped<IUniteOFWork, UniteOFWork>();
             builder.Services.AddScoped<IOrderServices, OrderServices>();//perRequest
+            builder.Services.AddScoped<IPaymentServices, PaymentServices>();//perRequest
 
-
+            builder.Services.AddCors(o =>
+            {
+                o.AddPolicy("MyPolicey", x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin() );
+            }
+            );
             #endregion End Configurations
 
 
 
 
 
-            var app = builder.Build();
+           var app = builder.Build();
 
             using var Scope = app.Services.CreateScope(); // Make Scope Manually  -- that`s not Under Controller CLR
             var Services = Scope.ServiceProvider;
@@ -118,9 +124,10 @@ namespace Souq.Api
             app.UseHttpsRedirection();
             #region Authentication Authorization 
             app.UseAuthentication();
-            app.UseAuthorization(); 
+            app.UseAuthorization();
             #endregion
 
+            app.UseCors("MyPolicey");
 
             app.MapControllers();
 

@@ -15,15 +15,17 @@ namespace Souq.Services
     {
         private readonly IBasketRepo _basketRepo;
         private readonly IUniteOFWork uniteOFWork;
+        private readonly IPaymentServices paymentServices;
 
         ///private readonly IGenericRepository<Product> ProductRepo;
         ///private readonly IGenericRepository<Order> _OrdersRepo;
         ///public IGenericRepository<DeliveryMethod> _DeliveryMethodeRepo { get; }
 
-        public OrderServices(IBasketRepo BasketRepo,IUniteOFWork  UniteOFWork   /*IGenericRepository<Product> productRepo,IGenericRepository<DeliveryMethod> DeliveryMethodeRepo,IGenericRepository<Order> ordersRepo*/)
+        public OrderServices(IBasketRepo BasketRepo,IUniteOFWork  UniteOFWork ,IPaymentServices PaymentServices  /*IGenericRepository<Product> productRepo,IGenericRepository<DeliveryMethod> DeliveryMethodeRepo,IGenericRepository<Order> ordersRepo*/)
         {
             _basketRepo = BasketRepo;
             uniteOFWork = UniteOFWork;
+            paymentServices = PaymentServices;
             ///ProductRepo = productRepo;
             ///_DeliveryMethodeRepo = DeliveryMethodeRepo;
             ///_OrdersRepo = ordersRepo;
@@ -63,12 +65,26 @@ namespace Souq.Services
                 // Delivery Methode
                 var Delivery = await uniteOFWork.Repositorey<DeliveryMethod>().GetByIdAsync(DeliveryMethodId);
 
+                //Check if have order Exists Before Or not
 
-                var order=new Order(BuyerEmail,ShippingAddress, Delivery, SubTotal, Orderitems);
+                var Spec = new OrderSpecification(Basket.PaymentId);
+
+                var ExistingOrder = await uniteOFWork.Repositorey<Order>().GetByIdAsyncWithSpec(Spec);
+                if(ExistingOrder != null)
+                {
+                    uniteOFWork.Repositorey<Order>().Delete(ExistingOrder);
+                   await paymentServices.CreateOrUpdatePaymentIntent(BasketId);
+                }
+                    
+
+                var order=new Order(BuyerEmail,ShippingAddress, Delivery, SubTotal, Orderitems,Basket.PaymentId);
 
 
                 await uniteOFWork.Repositorey<Order>().Add(order);
                 var Resulte = await uniteOFWork.Complete();
+
+
+
                 if (Resulte <= 0)
                     return null;
                 return order;

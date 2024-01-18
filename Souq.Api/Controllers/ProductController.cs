@@ -44,7 +44,7 @@ namespace Souq.Api.Controllers
         //[Authorize]
         [ProducesResponseType(typeof(PaginationDataDto<ProductToReturnDTO>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
-        [Cache(600,)]
+        [Cache(600)]
 
 
         public async Task<ActionResult<PaginationDataDto<ProductToReturnDTO>>> GetProducts([FromQuery] ProductWithParam param)
@@ -73,6 +73,7 @@ namespace Souq.Api.Controllers
 
         [ProducesResponseType(typeof(ProductToReturnDTO), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [Cache(600)]
         [HttpGet("{id}")]
         public async Task<ActionResult<ProductToReturnDTO>> GetProduct(int id)
         {
@@ -94,6 +95,7 @@ namespace Souq.Api.Controllers
 
 
         #region Brand And Type Action 
+        [Cache(600)]
         [HttpGet("types")]
 
         public async Task<ActionResult<IReadOnlyList<ProductType>>> GetType()
@@ -105,6 +107,7 @@ namespace Souq.Api.Controllers
 
 
 
+        [Cache(600)]
         [HttpGet("brands")]
         public async Task<ActionResult<IReadOnlyList<ProductBrand>>> GetBrand()
         {

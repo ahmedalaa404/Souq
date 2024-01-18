@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Souq.Core.Services;
+using System.Text;
 
 namespace Souq.Api.Helper
 {
@@ -43,7 +44,10 @@ namespace Souq.Api.Helper
 
           var ExcutedEndPointContext=  await next.Invoke();
 
-
+            if(ExcutedEndPointContext.Result is OkObjectResult OKobjectResulte)
+            {
+                await CacheServices.CacheResponseAsync(CacheKeyFromReqest, OKobjectResulte.Value, TimeSpan.FromSeconds(time));
+            }
 
 
 
@@ -56,10 +60,20 @@ namespace Souq.Api.Helper
         {
 
 
+            var KeyBuilder = new StringBuilder();
+
+
+            KeyBuilder.Append(request.Path); //THAT Have Path
 
 
 
-            
+            foreach (var (key,value) in request.Query.OrderBy(x=>x.Key))  //ICollection
+            {
+                KeyBuilder.Append($"|{key}-{value}");
+
+            }
+            return KeyBuilder.ToString();
+
         }
     }
 }

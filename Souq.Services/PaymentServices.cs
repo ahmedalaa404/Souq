@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Souq.Core.Specification;
 
 namespace Souq.Services
 {
@@ -89,6 +90,31 @@ namespace Souq.Services
             await BasketRepo.UpdateBasketAsync(basket);
 
             return basket;
+        }
+
+        public async Task<Order> UpdatePaymentIntentToSucceededOrFailed(string id, bool StatusSuccesOrNot)
+        {
+            var Sepc = new OrderWithPaymentIntentIdSpec(id);
+
+            var Order = await UniteOFWork.Repositorey<Order>().GetByIdAsyncWithSpec(Sepc);
+
+
+            if(StatusSuccesOrNot)
+            {
+                Order.Status = OrderStatus.PaymentReceived;
+
+            }
+            else
+            {
+                Order.Status = OrderStatus.PaymentFailed;
+            }
+
+            UniteOFWork.Repositorey<Order>().Update(Order);
+            UniteOFWork.Complete();
+
+
+
+            return Order;
         }
     }
 }

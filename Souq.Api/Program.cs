@@ -65,6 +65,9 @@ namespace Souq.Api
             builder.Services.AddScoped<IOrderServices, OrderServices>();//perRequest
             builder.Services.AddScoped<IPaymentServices, PaymentServices>();//perRequest
 
+
+            builder.Services.AddSingleton<IResponseCacheServices, ResponseCacheServices>(); // Per ReQuest Allow Dependecy Injection 
+
             builder.Services.AddCors(o =>
             {
                 o.AddPolicy("MyPolicey", x => x.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin() );

@@ -28,19 +28,25 @@ namespace Souq.Api.Controllers
         public ProductController(/*IGenericRepository<Product> ProductRepo ,*/IMapper Mapper, 
         /*    IGenericRepository<ProductBrand> Productbrand, IGenericRepository<ProductType> ProductType */IUniteOFWork uniteofWotk)
         {
+            #region Old
             //_ProductRepo = ProductRepo;
-            //_Mapper = Mapper;
             //_Productbrand = Productbrand;
-            //_ProductType= ProductType;
+            //_ProductType= ProductType; 
+            #endregion
+            _Mapper = Mapper;
+
             this._UniteOfWork = uniteofWotk;
         }
 
 
         [HttpGet]
         //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(typeof(PaginationDataDto<ProductToReturnDTO>),StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        [Cache(600,)]
+
+
         public async Task<ActionResult<PaginationDataDto<ProductToReturnDTO>>> GetProducts([FromQuery] ProductWithParam param)
         {
             //var Product = await _ProductRepo.GetAllAsyc();

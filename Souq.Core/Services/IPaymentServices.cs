@@ -1,4 +1,5 @@
 ﻿using Souq.Core.Entites;
+using Souq.Core.Entites.Order_Aggregate;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,7 +16,6 @@ namespace Souq.Core.Services
 
 
         Task<CustomerBasket?> CreateOrUpdatePaymentIntent(string BasketId);
-
-
+        Task<Order> UpdatePaymentIntentToSucceededOrFailed(string id, bool StatusSuccesOrNot);
     }
 }
